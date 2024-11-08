@@ -1,0 +1,70 @@
+package pertemuan.pkg3;
+
+import java.util.Scanner;
+
+public class Pertemuan3 {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        String ulangi;
+        System.out.println("Selamat datang di Program Kalkulator Zakat Maal!");
+
+        do {
+            // Input data Muzaki (donatur)
+            System.out.print("Masukkan nama donatur: ");
+            String nama = scanner.nextLine();
+
+            System.out.print("Masukkan jumlah total harta yang Anda miliki (dalam Rupiah): ");
+            while (!scanner.hasNextDouble()) {
+                System.out.println("Oops! Input Anda tidak valid. Silakan masukkan jumlah harta berupa angka yang benar.");
+                scanner.next();
+            }
+
+            double harta = scanner.nextDouble();
+            scanner.nextLine(); // Membersihkan input buffer
+
+            // Membuat objek Muzaki dengan konstruktor
+            Muzaki muzaki = new Muzaki(nama, harta);
+
+            // Menghitung zakat
+            double zakat = muzaki.hitungZakatMaal();
+            if (zakat > 0) {
+                System.out.printf("Halo %s, Anda wajib membayar zakat sebesar: Rp%.2f\n", muzaki.getNama(), zakat);
+            } else {
+                System.out.println("Harta Anda belum mencapai nisab. Jadi, Anda belum wajib membayar zakat.");
+            }
+
+            // Input data penerima zakat (optional)
+            System.out.print("Apakah Anda ingin mencatat penerima zakat? (ya/tidak): ");
+            String catatPenerima = scanner.nextLine();
+
+            if (catatPenerima.equalsIgnoreCase("ya")) {
+                System.out.print("Masukkan nama penerima zakat: ");
+                String namaPenerima = scanner.nextLine();
+
+                System.out.print("Masukkan alamat penerima zakat: ");
+                String alamatPenerima = scanner.nextLine();
+
+                System.out.print("Masukkan kategori penerima zakat (fakir/miskin): ");
+                String kategori = scanner.nextLine();
+
+                // Membuat objek Penerima dengan konstruktor
+                Penerima penerima = new Penerima(namaPenerima, alamatPenerima, kategori);
+                System.out.println("Penerima zakat berhasil dicatat:");
+                System.out.println("Nama: " + penerima.getNamaPenerima());
+                System.out.println("Alamat: " + penerima.getAlamat());
+                System.out.println("Kategori: " + penerima.getKategori());
+            }
+
+            // Menanyakan apakah pengguna ingin menghitung zakat lagi
+            System.out.print("Apakah Anda ingin menghitung zakat lagi? (ketik 'ya' untuk melanjutkan, atau 'tidak' untuk keluar): ");
+            ulangi = scanner.nextLine();
+
+        } while (ulangi.equalsIgnoreCase("ya"));
+
+        System.out.println("Terima kasih telah menggunakan Program Kalkulator Zakat Maal. Semoga bermanfaat!");
+        scanner.close();
+    }
+}
+
